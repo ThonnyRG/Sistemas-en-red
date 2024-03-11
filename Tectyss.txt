@@ -1,0 +1,17 @@
+Esta clase tiene como proposito imprimir un mensaje por consola 
+en intervalos aleatorios
+
+La estructura de la clase empieza implementando de la interfaz
+Runnable, dentro de la clase empieza declarando 1 variable 
+global y 1 constante tambien global, la primera es una llamada
+"message" de tipo string y privada, despues esta la constante
+de tipo privada de nombre "TIMES" de tipo numero entero con valor de 10, como es
+una constante esta nunca cambiara su valor.
+
+Despues esta un cosntructor de la clasemsg, despues esta el 
+metodo run que inicia el hilo, que esta tiene dentro un contador que ira del 0
+hasta el valor de la constante "TIMES" o sea 10, dentro hay 
+un try catch que si sale bien imprime la variable "message"
+en intervalos 0 al 3000, despues poniendo a dormir al hilo, si
+el hilo es interrumpido el catch entra para imprimir la excepcion.
+
