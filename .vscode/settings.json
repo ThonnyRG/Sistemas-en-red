@@ -1,6 +1,9 @@
 {
     "java.project.sourcePaths": [
+        "Act10",
         "Actividad 9",
-        "Act10"
-    ]
+        "Actividad18\\Cliente",
+        "Actividad18\\Servidor"
+    ],
+    "java.project.referencedLibraries": []
 }
