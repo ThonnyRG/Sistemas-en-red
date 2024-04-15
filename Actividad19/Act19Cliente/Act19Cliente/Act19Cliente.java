@@ -1,4 +1,5 @@
-package Act19Cliente;
+package Act19Cliente.Act19Cliente;
+
 
 import Interfaces.IPersona;
 import java.net.MalformedURLException;

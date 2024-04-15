@@ -25,5 +25,11 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
     public void add(IPersona persona) throws RemoteException {
         personas.add(persona);
     }
+
+    @Override
+    public IPersona newInstance() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'newInstance'");
+    }
 }
 
