@@ -9,94 +9,94 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PersonaController extends UnicastRemoteObject implements IPersonaController{
-    
+public class PersonaController extends UnicastRemoteObject implements IPersonaController {
+
     private DbManager dbManager;
     private final static String TABLE = "Personas";
 
     public PersonaController() throws RemoteException {
-        dbManager = new DbManager();
-    }    
-    
-    public IPersona newInstance() throws RemoteException{
+        try {
+            dbManager = new DbManager();
+        } catch (Exception e) {
+            // Manejar la excepción de inicialización de DbManager apropiadamente
+            e.printStackTrace();
+        }
+    }
+
+    public IPersona newInstance() throws RemoteException {
         return new Persona();
     }
-    
+
     @Override
     public int add(IPersona persona) throws RemoteException {
-        boolean existe = false;
-        if (persona.getId() != 0) {
-            Map<String, Object> where = new HashMap<>();
-            where.put("IdPersona", persona.getId());
-            Map<String, Object> registro = dbManager.buscarUno (TABLE, where); 
-            existe = registro.size() > 0;
+        if (persona.getId() == 0) {
+            return UPDATE_ID_NULO;
         }
-        if (existe ) {
+
+        Map<String, Object> where = new HashMap<>();
+        where.put("IdPersona", persona.getId());
+        Map<String, Object> registro = dbManager.buscarUno(TABLE, where);
+        if (!registro.isEmpty()) {
             return ADD_ID_DUPLICADO;
         }
-        Map<String, Object> datos = new HashMap<>();
-        /*if (persona.getId() != 0) {
-            datos.put("IdPersona", persona.getId() );
-        }
-        if (persona.getNombre() != null) {
-            datos.put("Nombre",
-            persona.getNombre());
-        }
-        if (persona.getTelefono() != null) {
-            datos.put("Telefono", persona.getTelefono() );
-        }
-        if (persona.getEmail() != null) {
-            datos.put("Email", persona.getEmail());
-            }
-        
-        */
-        int respuesta = dbManager.insertar (TABLE, datos);
+
+        Map<String, Object> datos = Persona.toMap(persona);
+        int respuesta = dbManager.insertar(TABLE, datos);
         return (respuesta > 0) ? ADD_EXITO : ADD_SIN_EXITO;
     }
 
     @Override
     public int update(IPersona persona) throws RemoteException {
-        if(persona.getId() != 0) {
+        if (persona.getId() == 0) {
             return UPDATE_ID_NULO;
         }
-        
-        // Verificar que existe persona con ID recibido
-        IPersona personaEncontrado = findOne (persona.getId());
-        if (personaEncontrado.getId() == 0) {
+
+        IPersona personaEncontrado = findOne(persona.getId());
+        if (personaEncontrado == null) {
             return UPDATE_ID_INEXISTE;
         }
+
         Map<String, Object> datos = Persona.toMap(persona);
         Map<String, Object> where = new HashMap<>();
-        where.put("IdPersona", persona.getId() );
-        int respuesta = dbManager.actualizar (TABLE, datos, where);
+        where.put("IdPersona", persona.getId());
+        int respuesta = dbManager.actualizar(TABLE, datos, where);
 
-        return (respuesta > 0 ) ? UPDATE_EXITO : UPDATE_SIN_EXITO;
+        return (respuesta > 0) ? UPDATE_EXITO : UPDATE_SIN_EXITO;
     }
 
     @Override
     public int delete(IPersona persona) throws RemoteException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        IPersona personaTemp = findOne(persona.getId());
+        if (personaTemp == null) {
+            return DELETE_ID_INEXISTENTE;
+        }
+
+        Map<String, Object> where = new HashMap<>();
+        where.put("IdPersona", persona.getId());
+        int respuesta = dbManager.eliminar(TABLE, where);
+        return (respuesta > 0) ? DELETE_EXITO : DELETE_SIN_EXITO;
     }
 
     @Override
     public List<IPersona> list() throws RemoteException {
-        List<IPersona> listalPersona = new ArrayList<>();
-        List< Map<String, Object> > registros = dbManager.listar (TABLE);
-        for (Map<String, Object> registro : registros ) {
-        IPersona persona = Persona.fromMap(registro);
-        listalPersona.add(persona);
-        } // Fin for
-        return listalPersona;
+        List<IPersona> listaPersona = new ArrayList<>();
+        List<Map<String, Object>> registros = dbManager.listar(TABLE);
+        for (Map<String, Object> registro : registros) {
+            IPersona persona = Persona.fromMap(registro);
+            if (persona != null) {
+                listaPersona.add(persona);
+            } else {
+                // Manejar la conversión fallida de registro a IPersona apropiadamente
+            }
+        }
+        return listaPersona;
     }
 
     @Override
     public IPersona findOne(int idPersona) throws RemoteException {
         Map<String, Object> where = new HashMap<>();
         where.put("IdPersona", idPersona);
-        Map<String, Object> registro = dbManager.buscarUno (TABLE, where);
-        return Persona.fromMap(registro);
+        Map<String, Object> registro = dbManager.buscarUno(TABLE, where);
+        return (registro != null && !registro.isEmpty()) ? Persona.fromMap(registro) : null;
     }
-
 }
-
