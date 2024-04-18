@@ -16,7 +16,8 @@ public interface IPersonaController extends Remote {
     List<IPersona> list() throws RemoteException;
 
     IPersona findOne(int idPersona) throws RemoteException;
-
+    
+    List<IPersona> find (IPersona persona) throws RemoteException;
     int ADD_EXITO = 1;
     int ADD_ID_DUPLICADO = 2;
     int ADD_SIN_EXITO = 3;

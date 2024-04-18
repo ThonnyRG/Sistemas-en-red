@@ -4,6 +4,8 @@ import java.rmi. Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
+import Act19Cliente.Interfaces.IPersona;
+
 public interface IPersonaController extends Remote {
     IPersona newInstance() throws RemoteException;
 
@@ -16,6 +18,8 @@ public interface IPersonaController extends Remote {
     List<IPersona> list() throws RemoteException;
 
     IPersona findOne(int idPersona) throws RemoteException;
+
+    List<IPersona> find (IPersona persona) throws RemoteException;
 
     int ADD_EXITO = 1;
     int ADD_ID_DUPLICADO = 2;

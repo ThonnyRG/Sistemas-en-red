@@ -99,4 +99,17 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
         Map<String, Object> registro = dbManager.buscarUno(TABLE, where);
         return (registro != null && !registro.isEmpty()) ? Persona.fromMap(registro) : null;
     }
+
+    @Override
+    public List<IPersona> find(IPersona persona) throws RemoteException {
+        List<IPersona> listaIPersona = new ArrayList<>();
+
+        Map<String, Object> where = Persona.toMap(persona);
+        List< Map<String, Object>> registros = dbManager.listar (TABLE, where);
+        for (Map<String, Object> registro: registros ) {
+            IPersona personaTemp = Persona.fromMap (registro);
+            listaIPersona.add(personaTemp);
+        } // Fin for
+        return listaIPersona;
+    }
 }
