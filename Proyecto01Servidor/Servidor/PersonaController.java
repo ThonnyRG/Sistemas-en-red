@@ -67,8 +67,13 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
 
     @Override
     public List<IPersona> list() throws RemoteException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'list'");
+        List<IPersona> listalPersona = new ArrayList<>();
+        List< Map<String, Object> > registros = dbManager.listar (TABLE);
+        for (Map<String, Object> registro : registros ) {
+        IPersona persona = Persona.fromMap(registro);
+        listalPersona.add(persona);
+        } // Fin for
+        return listalPersona;
     }
 
     @Override

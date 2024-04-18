@@ -2,6 +2,7 @@ package Servidor;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
 
 import Interfaces.IPersona;
 
@@ -61,5 +62,17 @@ public class Persona extends UnicastRemoteObject implements IPersona{
         throw new UnsupportedOperationException("Unimplemented method 'getString'");
     }
 
+    public static IPersona fromMap(Map<String, Object> map) throws RemoteException{
+        IPersona persona = new Persona();
+        
+        if(map.containsKey("IdPersona") )
+        persona.setId((Integer) map.get("IdPersona") );
+        if(map.containsKey("Nombre") ) persona.setNombre ((String) map.get("Nombre"));
+        if (map.containsKey("Telefono") && map.get("Telefono") != null) persona.setTelefono ((String) map.get("Telefono") );
+        if (map.containsKey("Email") ) persona.setEmail( (String) map.get("Email") );
+
+        return persona;
+
+    }
     
 }
