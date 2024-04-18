@@ -1,0 +1,26 @@
+-- This command connects to the practica01.db database (and creates it if it doesn't exist)
+.open practica01.db
+
+-- This command creates the "usuarios" table
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    edad INTEGER,
+    correo TEXT
+);
+
+-- Crear la tabla "productos"
+CREATE TABLE IF NOT EXISTS productos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    precio REAL,
+    stock INTEGER
+);
+
+-- Insertar algunos datos de ejemplo en la tabla "usuarios"
+INSERT INTO usuarios (nombre, edad, correo) VALUES ('Juan', 30, 'juan@example.com');
+INSERT INTO usuarios (nombre, edad, correo) VALUES ('María', 25, 'maria@example.com');
+
+-- Insertar algunos datos de ejemplo en la tabla "productos"
+INSERT INTO productos (nombre, precio, stock) VALUES ('Producto A', 10.50, 100);
+INSERT INTO productos (nombre, precio, stock) VALUES ('Producto B', 20.75, 50);
