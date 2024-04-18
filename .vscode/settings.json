@@ -6,9 +6,17 @@
         "Actividad18\\Servidor",
         "Actividad19",
         "Actividad20",
-        "Proyecto01Servidor"
+        "Practica01Cliente\\practica01cliente",
+        "Proyecto01Servidor",
+        "Proyecto01Server"
     ],
-    "java.project.referencedLibraries": [
-        "Proyecto01Servidor/Driver/sqlite-jdbc-3.45.2.0.jar"
-    ]
+    "java.project.referencedLibraries": {
+        "include": [
+            "Proyecto01Servidor\\Driver\\sqlite-jdbc-3.45.2.0.jar",
+            "Proyecto01Server/lib/sqlite-jdbc-3.45.2.0.jar"
+        ],
+        "exclude": [
+            "Proyecto01Servidor/Driver/sqlite-jdbc-3.45.2.0.jar"
+        ]
+    }
 }
