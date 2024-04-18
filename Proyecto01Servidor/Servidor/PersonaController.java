@@ -35,7 +35,7 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
             return ADD_ID_DUPLICADO;
         }
         Map<String, Object> datos = new HashMap<>();
-        if (persona.getId() != 0) {
+        /*if (persona.getId() != 0) {
             datos.put("IdPersona", persona.getId() );
         }
         if (persona.getNombre() != null) {
@@ -48,15 +48,29 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
         if (persona.getEmail() != null) {
             datos.put("Email", persona.getEmail());
             }
+        
+        */
         int respuesta = dbManager.insertar (TABLE, datos);
-
         return (respuesta > 0) ? ADD_EXITO : ADD_SIN_EXITO;
     }
 
     @Override
-    public void update(IPersona persona) throws RemoteException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    public int update(IPersona persona) throws RemoteException {
+        if(persona.getId() != 0) {
+            return UPDATE_ID_NULO;
+        }
+        
+        // Verificar que existe persona con ID recibido
+        IPersona personaEncontrado = findOne (persona.getId());
+        if (personaEncontrado.getId() == 0) {
+            return UPDATE_ID_INEXISTE;
+        }
+        Map<String, Object> datos = Persona.toMap(persona);
+        Map<String, Object> where = new HashMap<>();
+        where.put("IdPersona", persona.getId() );
+        int respuesta = dbManager.actualizar (TABLE, datos, where);
+
+        return (respuesta > 0 ) ? UPDATE_EXITO : UPDATE_SIN_EXITO;
     }
 
     @Override
@@ -78,8 +92,10 @@ public class PersonaController extends UnicastRemoteObject implements IPersonaCo
 
     @Override
     public IPersona findOne(int idPersona) throws RemoteException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findOne'");
+        Map<String, Object> where = new HashMap<>();
+        where.put("IdPersona", idPersona);
+        Map<String, Object> registro = dbManager.buscarUno (TABLE, where);
+        return Persona.fromMap(registro);
     }
 
 }

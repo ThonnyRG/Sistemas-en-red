@@ -74,5 +74,10 @@ public class Persona extends UnicastRemoteObject implements IPersona{
         return persona;
 
     }
+
+    public static Map<String, Object> toMap(IPersona persona) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'toMap'");
+    }
     
 }

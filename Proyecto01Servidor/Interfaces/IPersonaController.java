@@ -9,7 +9,7 @@ public interface IPersonaController extends Remote {
 
     int add (IPersona persona) throws RemoteException;
 
-    void update (IPersona persona) throws RemoteException;
+    int update (IPersona persona) throws RemoteException;
 
     int delete (IPersona persona) throws RemoteException;
 
