@@ -17,7 +17,7 @@ public class DbManager {
     private Connection conexion;
 
     public DbManager() {
-        String url = "jdbc:sqlite:D:\\Documents\\Sistemas en red\\Proyecto01Servidor\\Servidor\\db.sql";
+        String url = "jdbc:sqlite:D:\\Documents\\Sistemas en red\\Proyecto01Servidor\\Servidor\\db.sqlite";
         try {
             conexion = DriverManager.getConnection(url);
             System.out.println("Conexión a BD exitosa.");
